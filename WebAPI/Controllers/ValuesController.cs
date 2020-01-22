@@ -39,16 +39,21 @@ namespace WebAPI.Controllers
         public string Put(string inputWord, string meaning, string value)
         {
             var edit = temp.Where(word => word.word == value).FirstOrDefault();
-            int indexOfWord = temp.IndexOf(edit);
+            if (edit != null)
+            {
+                int indexOfWord = temp.IndexOf(edit);
 
-            if (edit.word != inputWord)
-                edit.word = inputWord;
-            if (edit.meanings != meaning)
-                edit.meanings = meaning;
-            temp.RemoveAt(indexOfWord);
-            temp.Insert(indexOfWord, edit);
+                if (edit.word != inputWord)
+                    edit.word = inputWord;
+                if (edit.meanings != meaning)
+                    edit.meanings = meaning;
+                temp.RemoveAt(indexOfWord);
+                temp.Insert(indexOfWord, edit);
 
-            return "Done!";
+                return "Done!";
+            }
+            else
+                return "Word Not Found 404";
         }
 
         [HttpDelete]
